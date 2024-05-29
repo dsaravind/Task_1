@@ -89,19 +89,17 @@ def delete_task():
     userName = None
     if request.is_json:
         data = request.get_json()
-        userName = data.get('username')
-    else:
-        userName = request.args.get('username')
+        user_id = data.get('id')
     
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM task WHERE username=%s", (userName,))
+    cur.execute("SELECT * FROM task WHERE id=%s", (user_id,))
     task = cur.fetchone()
     
     if not task:
         cur.close()
         return jsonify({'message': 'Task not found for the given userName'}), 404
     
-    cur.execute("DELETE FROM task WHERE username=%s", (userName,))
+    cur.execute("DELETE FROM task WHERE id=%s", (user_id,))
     mysql.connection.commit()
     cur.close()
     return jsonify({'message': 'Task deleted successfully'})
