@@ -76,13 +76,12 @@ def api_add_task():
     try:
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO task (id, username, taskName, taskAssignedTo, taskStatus) VALUES (%s, %s, %s, %s, %s)", 
-                    (user_id, username, task_name, task_assigned_to, task_status, ))
+                    (user_id, username, task_name, task_assigned_to, task_status))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message': 'Task added successfully'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 @app.route('/delete-task', methods=['DELETE'])
 def delete_task():
