@@ -118,7 +118,7 @@ def update_task():
 
         cur = mysql.connection.cursor()
         cur.execute("UPDATE task SET taskName=%s, taskAssignedTo=%s, taskStatus=%s WHERE username=%s", 
-                    (task_name, task_assigned_to, task_status, username))
+                    (task_name, task_assigned_to, task_status, userName))
         mysql.connection.commit()
         cur.close()
 
