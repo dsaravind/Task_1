@@ -64,6 +64,7 @@ def tasks():
 def api_add_task():
     if request.is_json:
         data = request.get_json()
+        user_id = data.get('id')
         username = data.get('username')
         task_name = data.get('taskName')
         task_assigned_to = data.get('taskAssignedTo')
@@ -74,8 +75,8 @@ def api_add_task():
 
     try:
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO task (taskName, taskAssignedTo, taskStatus, username) VALUES (%s, %s, %s, %s)", 
-                    (task_name, task_assigned_to, task_status, username))
+        cur.execute("INSERT INTO task (id, username, taskName, taskAssignedTo, taskStatus) VALUES (%s, %s, %s, %s, %s)", 
+                    (user_id, username, task_name, task_assigned_to, task_status, ))
         mysql.connection.commit()
         cur.close()
         return jsonify({'message': 'Task added successfully'})
@@ -111,14 +112,15 @@ def delete_task():
 def update_task():
     if request.is_json:
         data = request.get_json()
+        user_id = data.get('id')
         task_name = data.get('taskName')
         task_assigned_to = data.get('taskAssignedTo')
         task_status = data.get('taskStatus')
         userName = data.get('username')  
 
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE task SET taskName=%s, taskAssignedTo=%s, taskStatus=%s WHERE username=%s", 
-                    (task_name, task_assigned_to, task_status, userName))
+        cur.execute("UPDATE task SET taskName=%s, taskAssignedTo=%s, taskStatus=%s, userName=%s WHERE id=%s", 
+                    (task_name, task_assigned_to, task_status, userName, user_id))
         mysql.connection.commit()
         cur.close()
 
