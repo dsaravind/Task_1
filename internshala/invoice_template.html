@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+        .logo { text-align: center; }
+        .header { display: flex; justify-content: space-between; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td { border: 1px solid #eee; padding: 10px; text-align: left; }
+        .footer { text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <div class="logo"><img src="{{ logo }}" alt="Company Logo" height="100"></div>
+        <div class="header">
+            <div>
+                <h2>Seller Details</h2>
+                <p>{{ seller_name }}</p>
+                <p>{{ seller_address }}</p>
+                <p>PAN No: {{ seller_pan }}</p>
+                <p>GST Registration No: {{ seller_gst }}</p>
+            </div>
+            <div>
+                <h2>Invoice Details</h2>
+                <p>Invoice No: {{ invoice_no }}</p>
+                <p>Invoice Date: {{ invoice_date }}</p>
+            </div>
+        </div>
+        <h2>Billing Details</h2>
+        <p>{{ billing_name }}</p>
+        <p>{{ billing_address }}</p>
+        <h2>Shipping Details</h2>
+        <p>{{ shipping_name }}</p>
+        <p>{{ shipping_address }}</p>
+        <h2>Order Details</h2>
+        <p>Order No: {{ order_no }}</p>
+        <p>Order Date: {{ order_date }}</p>
+        <h2>Item Details</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Discount</th>
+                    <th>Net Amount</th>
+                    <th>Tax Type</th>
+                    <th>Tax Amount</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.unit_price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.discount }}</td>
+                    <td>{{ item.net_amount }}</td>
+                    <td>{{ item.tax_type }}</td>
+                    <td>{{ item.tax_amount }}</td>
+                    <td>{{ item.total_amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7">Total</td>
+                    <td>{{ total_amount }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <p>Amount in words: {{ amount_in_words }}</p>
+        <div class="footer">
+            <p>For {{ seller_name }}:</p>
+            <img src="{{ signature }}" alt="Signature" height="50">
+            <p>Authorised Signatory</p>
+        </div>
+    </div>
+</body>
+</html>
+
